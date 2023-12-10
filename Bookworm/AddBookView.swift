@@ -6,15 +6,18 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct AddBookView: View {
     @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
     
     @State private var title = ""
     @State private var author = ""
     @State private var rating = 3
     @State private var genre = "Fantasy"
     @State private var review = ""
+    @State private var date = Date.now
     
     let genres = ["Fantasy", "Horror", "Kids", "Mystery", "Poetry", "Romance", "Thriller"]
     
@@ -40,10 +43,12 @@ struct AddBookView: View {
                 
                 Section {
                     Button("Save") {
-                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
+                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating, date: date)
                         modelContext.insert(newBook)
+                        dismiss()
                     }
                 }
+                .disabled(title.trimmingCharacters(in: .whitespaces).isEmpty || author.trimmingCharacters(in: .whitespaces).isEmpty || genre.trimmingCharacters(in: .whitespaces).isEmpty || review.trimmingCharacters(in: .whitespaces).isEmpty)
             }
             .navigationTitle("Add Book")
         }
@@ -51,5 +56,6 @@ struct AddBookView: View {
 }
 
 #Preview {
-    AddBookView()
+    ContentView()
 }
+

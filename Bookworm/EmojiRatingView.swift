@@ -24,6 +24,7 @@ struct EmojiRatingView: View {
             Text("❤️")
         }
     }
+    
 }
 
 #Preview {
